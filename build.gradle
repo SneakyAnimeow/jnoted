@@ -1,0 +1,76 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.springframework.boot' version '3.1.0'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.beryx.runtime' version '1.13.0'
+//    id 'com.github.johnrengelman.shadow' version '8.1.1' //Uncomment this line to build a fat jar
+}
+
+group = 'club.anims'
+version = '1.0'
+
+application {
+    mainClass = 'club.anims.jnoted.JnotedApplication'
+}
+
+def os = org.gradle.internal.os.OperatingSystem.current()
+def isWindows = org.gradle.internal.os.OperatingSystem.WINDOWS == os;
+
+runtime {
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+
+    modules = ['java.base', 'java.compiler', 'java.desktop', 'java.instrument',
+    'java.logging', 'java.management', 'java.naming', 'java.net.http',
+    'java.prefs', 'java.rmi', 'java.scripting', 'java.security.jgss',
+    'java.sql', 'java.sql.rowset', 'java.transaction.xa', 'java.xml',
+    'jdk.jfr', 'jdk.unsupported']
+
+    jpackage {
+        imageName = 'Jnoted'
+        if(isWindows){
+            imageOptions = ['--win-console']
+        }
+        skipInstaller = true
+    }
+
+    launcher{
+        jvmArgs = []
+    }
+}
+
+java {
+    sourceCompatibility = '17'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'org.xerial:sqlite-jdbc:3.42.0.0'
+    implementation 'org.hibernate.orm:hibernate-community-dialects:6.2.5.Final'
+    testImplementation 'junit:junit:4.13.1'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    testImplementation 'com.h2database:h2'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
