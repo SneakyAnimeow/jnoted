@@ -21,9 +21,11 @@ import java.time.LocalDateTime;
 public class UserDto implements Serializable {
     private String name;
     private LocalDateTime joinDate;
+    private String email;
 
     public UserDto(User user) {
         this.name = user.getName();
         this.joinDate = user.getJoinDate();
+        this.email = user.getEmail();
     }
 }

@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "User", indexes = {
-        @Index(name = "idx_user_name", columnList = "name")
+        @Index(name = "idx_user_name", columnList = "name"),
+        @Index(name = "idx_user_email", columnList = "email")
 })
 public class User {
     @Id
@@ -25,6 +26,33 @@ public class User {
 
     @Column(name = "join_date", nullable = false)
     private LocalDateTime joinDate;
+
+    @Column(name = "email", unique = true, length = 320)
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public User() {
+    }
+
+    public User(String name, String hash) {
+        this.name = name;
+        this.hash = hash;
+        this.joinDate = LocalDateTime.now();
+    }
+
+    public User(String name, String hash, String email) {
+        this.name = name;
+        this.hash = hash;
+        this.joinDate = LocalDateTime.now();
+        this.email = email;
+    }
 
     public LocalDateTime getJoinDate() {
         return joinDate;

@@ -61,14 +61,15 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'org.xerial:sqlite-jdbc:3.42.0.0'
     implementation 'org.hibernate.orm:hibernate-community-dialects:6.2.5.Final'
+    implementation 'com.lambdaworks:scrypt:1.4.0'
     testImplementation 'junit:junit:4.13.1'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
-    testImplementation 'com.h2database:h2'
+//    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+//    testImplementation 'com.h2database:h2'
 }
 
 tasks.named('test') {

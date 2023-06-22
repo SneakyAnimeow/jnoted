@@ -13,11 +13,19 @@ public class Note {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @Column(name = "name", nullable = false, length = 64)
+    @Column(name = "name", nullable = false, length = 32)
     private String name;
 
     @Column(name = "content", nullable = false, length = 2048)
     private String content;
+
+    public Note() {
+    }
+
+    public Note(String name, String content) {
+        this.name = name;
+        this.content = content;
+    }
 
     public Category getCategory() {
         return category;

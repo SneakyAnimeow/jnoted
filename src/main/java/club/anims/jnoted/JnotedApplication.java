@@ -1,5 +1,6 @@
 package club.anims.jnoted;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,7 @@ import javax.sql.DataSource;
 import java.util.Objects;
 
 @SpringBootApplication
+@Slf4j
 public class JnotedApplication {
     private final Environment env;
 

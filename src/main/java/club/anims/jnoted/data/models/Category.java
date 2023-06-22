@@ -1,5 +1,6 @@
 package club.anims.jnoted.data.models;
 
+import club.anims.jnoted.data.dtos.CategoryDto;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,6 +16,13 @@ public class Category {
 
     @Column(name = "name", nullable = false, length = 64)
     private String name;
+
+    public Category() {
+    }
+
+    public Category(CategoryDto categoryDto) {
+        this.name = categoryDto.getName();
+    }
 
     public User getUser() {
         return user;
