@@ -17,14 +17,22 @@ public class LoginService implements ILoginService {
     private final UserRepository userRepository;
     private final IHashingService hashingService;
 
+    /**
+     * @param tokenRepository Token repository
+     * @param userRepository User repository
+     * @param hashingService Hashing service
+     */
     public LoginService(TokenRepository tokenRepository, UserRepository userRepository, IHashingService hashingService) {
         this.tokenRepository = tokenRepository;
         this.userRepository = userRepository;
         this.hashingService = hashingService;
     }
 
+    /**
+     * @throws RuntimeException If user not found or password is wrong
+     */
     @Override
-    public String login(String name, String password) {
+    public String login(String name, String password) throws RuntimeException {
         var user = userRepository.findByName(name).orElseThrow(() -> new RuntimeException("User not found"));
 
         if(!hashingService.verify(password, user.getHash())) {
@@ -39,8 +47,11 @@ public class LoginService implements ILoginService {
         return token.getToken();
     }
 
+    /**
+     * @throws RuntimeException If token not found
+     */
     @Override
-    public void logout(String token) {
+    public void logout(String token) throws RuntimeException {
         if(!tokenRepository.existsByToken(token)) {
             throw new RuntimeException("Token not found");
         }
@@ -50,6 +61,9 @@ public class LoginService implements ILoginService {
         log.info("User logged out: %s".formatted(token));
     }
 
+    /**
+     * @throws RuntimeException If user already exists
+     */
     @Override
     public String register(String name, String password, String email) throws RuntimeException {
         if(userRepository.existsByNameOrEmail(name, email)) {

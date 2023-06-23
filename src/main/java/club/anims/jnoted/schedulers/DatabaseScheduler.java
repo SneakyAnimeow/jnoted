@@ -14,15 +14,21 @@ import java.time.LocalDateTime;
 @Slf4j
 @EnableAsync
 @EnableScheduling
-public class DatabaseSchedulers {
+public class DatabaseScheduler {
     private static final int TOKENS_CLEANUP_INTERVAL = 1000 * 60 * 60; // 1 hour
 
     private final TokenRepository tokenRepository;
 
-    public DatabaseSchedulers(TokenRepository tokenRepository) {
+    /**
+     * @param tokenRepository Token repository
+     */
+    public DatabaseScheduler(TokenRepository tokenRepository) {
         this.tokenRepository = tokenRepository;
     }
 
+    /**
+     * This method is used to clean up tokens.
+     */
     @Schedules({
             @Scheduled(fixedDelay = TOKENS_CLEANUP_INTERVAL)
     })

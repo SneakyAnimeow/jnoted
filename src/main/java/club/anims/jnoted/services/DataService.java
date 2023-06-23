@@ -26,6 +26,13 @@ public class DataService implements IDataService {
     private final CategoryRepository categoryRepository;
     private final IHashingService hashingService;
 
+    /**
+     * @param tokenRepository Token repository
+     * @param userRepository User repository
+     * @param noteRepository Note repository
+     * @param categoryRepository Category repository
+     * @param hashingService Hashing service
+     */
     public DataService(TokenRepository tokenRepository, UserRepository userRepository, NoteRepository noteRepository, CategoryRepository categoryRepository, IHashingService hashingService) {
         this.tokenRepository = tokenRepository;
         this.userRepository = userRepository;
@@ -34,16 +41,24 @@ public class DataService implements IDataService {
         this.hashingService = hashingService;
     }
 
+    /**
+     * @return List of categories for user by token
+     * @throws RuntimeException If user not found or password is wrong
+     */
     @Override
-    public List<CategoryDto> getCategoriesByToken(String token) {
+    public List<CategoryDto> getCategoriesByToken(String token) throws RuntimeException {
         var user = getUserEntityByToken(token);
         var categories = categoryRepository.findByUser_Id(user.getId());
 
         return categories.stream().map(CategoryDto::new).toList();
     }
 
+    /**
+     * @return Category for user by id
+     * @throws RuntimeException If user not found or password is wrong
+     */
     @Override
-    public Optional<CategoryDto> getCategoryByTokenAndId(String token, Long id) {
+    public Optional<CategoryDto> getCategoryByTokenAndId(String token, Long id) throws RuntimeException {
         var user = getUserEntityByToken(token);
         var category = categoryRepository.findById(id);
 
@@ -54,8 +69,12 @@ public class DataService implements IDataService {
         return category.map(CategoryDto::new);
     }
 
+    /**
+     * @return Added category
+     * @throws RuntimeException If user not found or password is wrong
+     */
     @Override
-    public CategoryDto addCategoryByToken(String token, CategoryDto entity) {
+    public CategoryDto addCategoryByToken(String token, CategoryDto entity) throws RuntimeException {
         var user = getUserEntityByToken(token);
 
         var category = new Category(entity);
@@ -67,8 +86,12 @@ public class DataService implements IDataService {
         return new CategoryDto(category);
     }
 
+    /**
+     * @return Updated category
+     * @throws RuntimeException If user not found or password is wrong
+     */
     @Override
-    public CategoryDto updateCategoryByTokenAndId(String token, long id, CategoryDto entity) {
+    public CategoryDto updateCategoryByTokenAndId(String token, long id, CategoryDto entity) throws RuntimeException {
         var user = getUserEntityByToken(token);
 
         var category = categoryRepository.findById(id);
@@ -84,8 +107,11 @@ public class DataService implements IDataService {
         return new CategoryDto(savedCategory);
     }
 
+    /**
+     * @throws RuntimeException If user not found or password is wrong
+     */
     @Override
-    public void deleteCategoryByTokenAndId(String token, long id) {
+    public void deleteCategoryByTokenAndId(String token, long id) throws RuntimeException {
         var user = getUserEntityByToken(token);
 
         var category = categoryRepository.findById(id);
@@ -97,8 +123,12 @@ public class DataService implements IDataService {
         categoryRepository.delete(category.get());
     }
 
+    /**
+     * @return List of notes for user by token and category id
+     * @throws RuntimeException If user not found or password is wrong
+     */
     @Override
-    public List<NoteDto> getNotesByTokenAndCategoryId(String token, long categoryId) {
+    public List<NoteDto> getNotesByTokenAndCategoryId(String token, long categoryId) throws RuntimeException {
         var user = getUserEntityByToken(token);
 
         var category = categoryRepository.findById(categoryId);
@@ -112,8 +142,12 @@ public class DataService implements IDataService {
         return notes.stream().map(NoteDto::new).toList();
     }
 
+    /**
+     * @return Note for user by token and id
+     * @throws RuntimeException If user not found or password is wrong
+     */
     @Override
-    public Optional<NoteDto> getNoteByTokenAndId(String token, long id) {
+    public Optional<NoteDto> getNoteByTokenAndId(String token, long id) throws RuntimeException {
         var user = getUserEntityByToken(token);
 
         var note = noteRepository.findById(id);
@@ -125,8 +159,12 @@ public class DataService implements IDataService {
         return note.map(NoteDto::new);
     }
 
+    /**
+     * @return Added note
+     * @throws RuntimeException If user not found or password is wrong
+     */
     @Override
-    public NoteDto addNoteByTokenAndCategoryId(String token, long categoryId, NoteDto entity) {
+    public NoteDto addNoteByTokenAndCategoryId(String token, long categoryId, NoteDto entity) throws RuntimeException {
         var user = getUserEntityByToken(token);
 
         var category = categoryRepository.findById(categoryId);
@@ -146,8 +184,12 @@ public class DataService implements IDataService {
         return new NoteDto(note);
     }
 
+    /**
+     * @return Updated note
+     * @throws RuntimeException If user not found or password is wrong
+     */
     @Override
-    public NoteDto updateNoteByTokenAndId(String token, long id, NoteDto entity) {
+    public NoteDto updateNoteByTokenAndId(String token, long id, NoteDto entity) throws RuntimeException {
         var user = getUserEntityByToken(token);
 
         var note = noteRepository.findById(id);
@@ -164,8 +206,11 @@ public class DataService implements IDataService {
         return new NoteDto(savedNote);
     }
 
+    /**
+     * @throws RuntimeException If user not found or password is wrong
+     */
     @Override
-    public void deleteNoteByTokenAndId(String token, long id) {
+    public void deleteNoteByTokenAndId(String token, long id) throws RuntimeException {
         var user = getUserEntityByToken(token);
 
         var note = noteRepository.findById(id);
@@ -177,15 +222,21 @@ public class DataService implements IDataService {
         noteRepository.delete(note.get());
     }
 
+    /**
+     * @throws RuntimeException If user not found or password is wrong
+     */
     @Override
-    public Optional<UserDto> getUserByToken(String token) {
+    public Optional<UserDto> getUserByToken(String token) throws RuntimeException {
         var user = getUserEntityByToken(token);
 
         return Optional.of(new UserDto(user));
     }
 
+    /**
+     * @throws RuntimeException If user not found or password is wrong
+     */
     @Override
-    public UserDto updateUserByToken(UserController.UpdateUserBody body) {
+    public UserDto updateUserByToken(UserController.UpdateUserBody body) throws RuntimeException {
         var user = getUserEntityByToken(body.token());
 
         user.setName(body.username());
@@ -200,6 +251,10 @@ public class DataService implements IDataService {
         return new UserDto(savedUser);
     }
 
+    /**
+     * @param token Token
+     * @throws RuntimeException If user not found or password is wrong
+     */
     private User getUserEntityByToken(String token) throws RuntimeException {
         var tokenEntity = tokenRepository.findByToken(token);
         if (tokenEntity.isEmpty()) {

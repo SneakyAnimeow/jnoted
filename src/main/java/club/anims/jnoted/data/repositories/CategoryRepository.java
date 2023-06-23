@@ -9,6 +9,9 @@ import java.util.List;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
+    /**
+     * @return List of categories for user by id
+     */
     @Query("select c from Category c where c.user.id = ?1")
     List<Category> findByUser_Id(Long id);
 }

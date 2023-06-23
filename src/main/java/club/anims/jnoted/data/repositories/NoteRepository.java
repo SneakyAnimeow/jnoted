@@ -9,6 +9,9 @@ import java.util.List;
 
 @Repository
 public interface NoteRepository extends JpaRepository<Note, Long> {
+    /**
+     * @return List of notes for category by id
+     */
     @Query("select n from Note n where n.category.id = ?1")
     List<Note> findByCategory_Id(Long id);
 }

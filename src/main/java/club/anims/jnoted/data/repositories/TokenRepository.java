@@ -8,28 +8,33 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface TokenRepository extends JpaRepository<Token, Long> {
-    @Query("select t from Token t where t.user.id = ?1")
-    List<Token> findByUser_Id(Long id);
-
+    /**
+     * @return True if token exists
+     */
     @Query("select (count(t) > 0) from Token t where t.token = ?1")
     boolean existsByToken(String token);
 
+    /**
+     * @return Token entity by token
+     */
     @Query("select t from Token t where t.token = ?1")
     Optional<Token> findByToken(String token);
 
-    @Query("select t from Token t where t.expirationDate < ?1")
-    List<Token> findByExpirationDateLessThan(LocalDateTime expirationDate);
-
+    /**
+     * @return int result of operation
+     */
     @Transactional
     @Modifying
     @Query("delete from Token t where t.expirationDate < ?1")
     int deleteByExpirationDateLessThan(LocalDateTime expirationDate);
 
+    /**
+     * @return int result of operation
+     */
     @Transactional
     @Modifying
     @Query("delete from Token t where t.token = ?1")

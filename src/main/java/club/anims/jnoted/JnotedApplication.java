@@ -15,14 +15,26 @@ import java.util.Objects;
 public class JnotedApplication {
     private final Environment env;
 
+    /**
+     * This is the constructor of the application.
+     * @param env Environment
+     */
     public JnotedApplication(Environment env) {
         this.env = env;
     }
 
+    /**
+     * This is the main method of the application.
+     * @param args Arguments
+     */
     public static void main(String[] args) {
         SpringApplication.run(JnotedApplication.class, args);
     }
 
+    /**
+     * This bean is used to connect to the database.
+     * @return DataSource
+     */
     @Bean
     public DataSource dataSource() {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
