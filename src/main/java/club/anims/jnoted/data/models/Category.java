@@ -3,9 +3,12 @@ package club.anims.jnoted.data.models;
 import club.anims.jnoted.data.dtos.CategoryDto;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Category {
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -17,11 +20,15 @@ public class Category {
     @Column(name = "name", nullable = false, length = 64)
     private String name;
 
-    public Category() {
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Note> notes = new ArrayList<>();
+
+    public List<Note> getNotes() {
+        return notes;
     }
 
-    public Category(CategoryDto categoryDto) {
-        this.name = categoryDto.getName();
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
     }
 
     public User getUser() {
@@ -30,6 +37,13 @@ public class Category {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Category() {
+    }
+
+    public Category(CategoryDto categoryDto) {
+        this.name = categoryDto.getName();
     }
 
     public String getName() {
