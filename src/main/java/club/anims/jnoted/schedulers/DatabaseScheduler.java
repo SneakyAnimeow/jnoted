@@ -1,7 +1,7 @@
 package club.anims.jnoted.schedulers;
 
 import club.anims.jnoted.data.repositories.TokenRepository;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.Schedules;
 import java.time.LocalDateTime;
 
 @Configuration
-@Slf4j
+@Log4j2
 @EnableAsync
 @EnableScheduling
 public class DatabaseScheduler {

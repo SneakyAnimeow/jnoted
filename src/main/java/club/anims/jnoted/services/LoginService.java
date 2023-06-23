@@ -4,14 +4,14 @@ import club.anims.jnoted.data.models.Token;
 import club.anims.jnoted.data.models.User;
 import club.anims.jnoted.data.repositories.TokenRepository;
 import club.anims.jnoted.data.repositories.UserRepository;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
-@Slf4j
+@Log4j2
 public class LoginService implements ILoginService {
     private final TokenRepository tokenRepository;
     private final UserRepository userRepository;

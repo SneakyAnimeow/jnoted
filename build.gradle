@@ -47,6 +47,10 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+
+    all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
 }
 
 repositories {
@@ -62,6 +66,7 @@ dependencies {
     implementation 'org.xerial:sqlite-jdbc:3.42.0.0'
     implementation 'org.hibernate.orm:hibernate-community-dialects:6.2.5.Final'
     implementation 'com.lambdaworks:scrypt:1.4.0'
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
     testImplementation 'junit:junit:4.13.1'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
